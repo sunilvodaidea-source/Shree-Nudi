@@ -90,7 +90,16 @@ if(window.db){window.db.collection('posts').doc('all').set({list:arr});}
 updateCount();
 }
 function updateCount(){let n=document.querySelectorAll('.post').length; document.getElementById('count').textContent=isEditing?`Total Posts: ${n}`:"";}
-function loadPosts(){let raw=localStorage.getItem('srinudi_posts'); if(raw){JSON.parse(raw).forEach(d=>createPost(d)); updateCount(); return;} createPost(null);}
+  function loadPosts(){
+  document.getElementById('posts').innerHTML = "";
+  if(!window.db){ loadLocalPosts(); return; }
+  window.db.collection('robertPosts').get().then(function(snap){
+    if(snap.empty){ createPost(null); return; }
+    snap.forEach(function(doc){
+      createPost(doc.data());
+    });
+  }).catch(function(){ loadL
+
 function loadPhotos(){let p1=localStorage.getItem('srinudi_admin'); if(p1) document.getElementById('adminPhoto').src=p1; let p2=localStorage.getItem('srinudi_sharada'); if(p2) document.getElementById('sharadaPhoto').src=p2;}
 function createPost(data){
 let d=data||{text:"",photo:"",date:"📅 "+nowStr,likes:0,liked:false,cmts:[]};
