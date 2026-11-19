@@ -90,16 +90,7 @@ if(window.db){window.db.collection('posts').doc('all').set({list:arr});}
 updateCount();
 }
 function updateCount(){let n=document.querySelectorAll('.post').length; document.getElementById('count').textContent=isEditing?`Total Posts: ${n}`:"";}
-  function loadPosts(){let raw=localStorage.getItem('srinudi_posts');   if(raw){JSON.parse(raw).forEach(d=>createPost(d)); updateCount(); return;} createPost(null);}
-  document.getElementById('posts').innerHTML = "";
-  if(!window.db){ loadLocalPosts(); return; }
-  window.db.collection('robertPosts').get().then(function(snap){
-    if(snap.empty){ createPost(null); return; }
-    snap.forEach(function(doc){
-      createPost(doc.data());
-    });
-  }).catch(function(){ loadL
-
+function loadPosts(){let raw=localStorage.getItem('srinudi_posts'); if(raw){JSON.parse(raw).forEach(d=>createPost(d)); updateCount(); return;} createPost(null);}
 function loadPhotos(){let p1=localStorage.getItem('srinudi_admin'); if(p1) document.getElementById('adminPhoto').src=p1; let p2=localStorage.getItem('srinudi_sharada'); if(p2) document.getElementById('sharadaPhoto').src=p2;}
 function createPost(data){
 let d=data||{text:"",photo:"",date:"📅 "+nowStr,likes:0,liked:false,cmts:[]};
@@ -138,26 +129,7 @@ document.getElementById('myphoto2').onchange=function(e){compressImage(e.target.
 document.getElementById('adminInput').addEventListener('keydown',function(e){if(e.key==='Enter') checkAdmin();});
 loadPhotos(); loadPosts();
 var fb1=document.createElement('script'); fb1.src='https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js'; document.head.appendChild(fb1);
-  var firebaseConfig={
-  apiKey:"AIzaSyBysB7M72fiu0Qq6-pEJZXsVwhf3LStgmU",
-  authDomain:"sri-nudi.firebaseapp.com",
-  projectId:"sri-nudi",
-  storageBucket:"sri-nudi.firebasestorage.app",
-  messagingSenderId:"927605255264",
-  appId:"1:927605255264:web:8fe0b6276f05c52b8ae705",
-  measurementId:"G-GQLBMGL463"
-};
-     firebase.initializeApp(firebaseConfig);
-window.db=firebase.firestore();
-
-setTimeout(function(){
-  loadPosts();
-},800);
+fb1.onload=function(){var fb2=document.createElement('script'); fb2.src='https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js'; document.head.appendChild(fb2); fb2.onload=function(){var firebaseConfig={apiKey:"AIzaSyAizg-jDgQSyn-OPCrmnDCR3jhvHevLw",authDomain:"robert-adams-in-kannada.firebaseapp.com",projectId:"robert-adams-in-kannada",storageBucket:"robert-adams-in-kannada.firebasestorage.app"}; firebase.initializeApp(firebaseConfig); window.db=firebase.firestore(); setTimeout(function(){loadPosts();},800);};};
 </script>
-</body>
-</html>
-
-
-  </script>
 </body>
 </html>
