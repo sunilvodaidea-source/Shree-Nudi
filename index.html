@@ -139,11 +139,15 @@ var fb1=document.createElement('script'); fb1.src='https://www.gstatic.com/fireb
   measurementId:"G-GQLBMGL463"
 };
      firebase.initializeApp(firebaseConfig);
-   window.db=firebase.firestore();
-   console.log("Firebase Connected!");
-    setTimeout(function(){ loadPosts(); },800);
-  };
- };
+window.db=firebase.firestore();
+
+setTimeout(function(){
+  loadPosts();
+},800);
+</script>
+</body>
+</html>
+
 
   </script>
 </body>
