@@ -138,12 +138,13 @@ var fb1=document.createElement('script'); fb1.src='https://www.gstatic.com/fireb
   appId:"1:927605255264:web:8fe0b6276f05c52b8ae705",
   measurementId:"G-GQLBMGL463"
 };
-  firebase.initializeApp(firebaseConfig);
-window.db=firebase.firestore();
+     firebase.initializeApp(firebaseConfig);
+   window.db=firebase.firestore();
+   console.log("Firebase Connected!");
+    setTimeout(function(){ loadPosts(); },800);
+  };
+ };
 
-setTimeout(function(){
-  loadPosts();
-},800);
-</script>
+  </script>
 </body>
 </html>
