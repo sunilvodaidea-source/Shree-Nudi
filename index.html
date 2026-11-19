@@ -1,2 +1,135 @@
-README.md
-index.html
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ಶ್ರೀ ನುಡಿ</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Sans Kannada",system-ui,Arial,sans-serif;background:#fff;color:#222;height:100vh;overflow:hidden}
+.topbar{height:52px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px 0 60px;border-bottom:1px solid #eee}
+.topbar h1{font-size:22px;font-weight:700;margin-left:30px}
+.topbar button{padding:7px 12px;border:1px solid #ddd;background:#fff;border-radius:20px;cursor:pointer}
+.top-info{display:flex;justify-content:space-between;align-items:flex-start;max-width:1200px;margin:0 auto;padding:18px 20px 14px;background:#fff;border-bottom:1px solid #eee}
+.admin-left{text-align:center;min-width:230px}
+.admin-left small{color:#000;font-weight:900;font-size:15px}
+.admin-left h3{font-weight:900;font-size:20px;color:#000}
+.admin-left a{font-weight:700;color:#000}
+.admin-left h3{margin:6px 0;font-size:18px}
+.admin-left a{color:#1a5fb4;font-size:13px;word-break:break-all;text-decoration:none}
+.admin-left img{width:110px;height:110px;object-fit:cover;border-radius:50%;margin-top:12px;display:block;margin-left:auto;margin-right:auto}
+.sharada-right{text-align:center;min-width:230px}
+.sharada-right .head{font-weight:700;font-size:16px;margin-bottom:10px}
+.sharada-right img{width:210px;height:150px;object-fit:cover;display:block;margin:0 auto}
+.center{max-width:800px;margin:0 auto;overflow-y:auto;height:calc(100vh - 52px - 235px);padding:18px 20px;background:#fff}
+.add-btn{width:100%;padding:12px;background:#222;color:#fff;border:0;border-radius:8px;font-size:16px;cursor:pointer;margin-bottom:12px}
+.post{background:#fff;padding:16px 0;margin-bottom:16px;border-bottom:1px solid #eee}
+/* ಪೋಸ್ಟ್ ಬರೆಯುವ ಬಾಕ್ಸ್ - ಈಗ ಚೆನ್ನಾಗಿ ಕಾಣುತ್ತೆ */
+.post .new{min-height:120px;outline:none;white-space:pre-wrap;font-size:19px;line-height:1.8;border:1px solid #ccc;border-radius:12px;padding:14px;background:#fff;cursor:text}
+.post .new:empty:before{content:"ಇಲ್ಲಿ Post ಬರೆಯಿರಿ... ✍️";color:#999}
+.post .new:focus{border-color:#0b7ac2;box-shadow:0 0 0 2px rgba(11,122,194,.12)}
+.post-date{font-size:12px;color:#888;margin:10px 0}
+.post-photo img{width:100%}
+.actions{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.like-btn{border:1px solid #ddd;background:#fff;padding:6px 14px;border-radius:20px;cursor:pointer}
+.like-btn.liked{border-color:#222}
+.audio-btn{border:1px solid #ddd;background:#fff;padding:6px 14px;border-radius:20px;cursor:pointer}
+.post-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.post-tools button{padding:8px 14px;border-radius:20px;cursor:pointer;border:1px solid #ddd;background:#fff}
+.post-tools .send-btn{background:#0b7ac2;color:#fff;border-color:#0b7ac2}
+.post-tools .del-btn{color:#c00}
+.cmt-list div{padding:7px 0;margin:5px 0;font-size:14px;border-bottom:1px solid #f5f5f5}
+.cmt-box{display:flex;gap:6px;margin-top:10px}
+.cmt-box input{flex:1;padding:9px;border:1px solid #ddd;border-radius:20px;background:#fff}
+.cmt-box button{padding:9px 14px;border-radius:50%;border:0;background:#0b7ac2;color:#fff;cursor:pointer}
+#adminModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;z-index:99}
+#adminModal.open{display:flex}
+.modal-box{background:#fff;padding:18px;border-radius:14px;width:90%;max-width:320px;text-align:center}
+.modal-box input{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;margin:10px 0}
+.modal-box button{padding:9px 16px;border:0;border-radius:10px;background:#222;color:#fff;margin:2px}
+body.locked .add-btn,body.locked .post-file,body.locked .photo-btns{opacity:.6}
+@media(max-width:640px){body{overflow:auto}.topbar{padding-left:20px}.topbar h1{margin-left:10px}.top-info{flex-direction:column;align-items:center;gap:14px}.center{overflow:visible;height:auto}}
+</style>
+</head>
+<body class="locked">
+<div class="topbar"><h1>ಶ್ರೀ ನುಡಿ</h1><button id="loginBtn" onclick="toggleEdit()">🔑</button></div>
+
+<div class="top-info">
+<div class="admin-left">
+<small>ವೆಬ್ ಪೇಜ್ ಸಂಪಾದಕರು :</small>
+<h3>ಮಂಜುಳಾ ಸುನಿಲ್</h3>
+<a href="mailto:manjulachandumanjulachandu@gmail.com">manjulachandumanjulachandu@gmail.com</a>
+<img id="adminPhoto" src="" alt="">
+<div class="photo-btns" style="margin-top:8px"><button onclick="pickPhoto('myphoto')">Photo Change</button></div>
+<input type="file" id="myphoto" accept="image/*" hidden>
+</div>
+<div class="sharada-right">
+<div class="head">ಶ್ರೀ ಶಾರದಾ ಮಾತೆ</div>
+<img id="sharadaPhoto" src="" alt="">
+<div class="photo-btns" style="margin-top:8px"><button onclick="pickPhoto('myphoto2')">Photo Change</button></div>
+<input type="file" id="myphoto2" accept="image/*" hidden>
+</div>
+</div>
+
+<div class="center">
+<button class="add-btn" onclick="addPost()">+ Add Page / ಹೊಸ Post ಬರೆಯಿರಿ</button>
+<div id="posts"></div>
+<div id="count" style="text-align:center;color:#888;font-size:13px"></div>
+</div>
+
+<div id="adminModal"><div class="modal-box"><h3>Admin Login</h3><input id="adminInput" placeholder="Email ಹಾಕಿ"><div><button onclick="checkAdmin()">Login</button><button onclick="closeAdmin()">Cancel</button></div></div></div>
+
+<script>
+const EDITOR_MAIL="manjulachandumanjulachandu@gmail.com";
+let isEditing=false, pendingPhoto=null;
+let nowStr=new Date().toLocaleDateString('kn-IN',{day:'numeric',month:'long',year:'numeric'})+", "+new Date().toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'});
+function savePosts(){
+let arr=[...document.querySelectorAll('.post')].map(p=>({text:p.querySelector('.new').innerText,date:p.querySelector('.post-date').textContent,photo:p.querySelector('.post-photo img')?.src||"",likes:parseInt(p.querySelector('.like-count').dataset.n||0),liked:p.querySelector('.like-btn').classList.contains('liked'),cmts:[...p.querySelectorAll('.cmt-list div')].map(x=>x.textContent)}));
+localStorage.setItem('srinudi_posts',JSON.stringify(arr));
+if(window.db){window.db.collection('posts').doc('all').set({list:arr});}
+updateCount();
+}
+function updateCount(){let n=document.querySelectorAll('.post').length; document.getElementById('count').textContent=isEditing?`Total Posts: ${n}`:"";}
+function loadPosts(){let raw=localStorage.getItem('srinudi_posts'); if(raw){JSON.parse(raw).forEach(d=>createPost(d)); updateCount(); return;} createPost(null);}
+function loadPhotos(){let p1=localStorage.getItem('srinudi_admin'); if(p1) document.getElementById('adminPhoto').src=p1; let p2=localStorage.getItem('srinudi_sharada'); if(p2) document.getElementById('sharadaPhoto').src=p2;}
+function createPost(data){
+let d=data||{text:"",photo:"",date:"📅 "+nowStr,likes:0,liked:false,cmts:[]};
+let div=document.createElement('div'); div.className='post';
+div.innerHTML=`<div class="new" contenteditable="true"></div><div class="post-date"></div><div class="post-photo"></div>
+<div class="actions"><button class="like-btn" onclick="likeThis(this)">🔥 Like <span class="like-count">0</span></button><button class="audio-btn" onclick="playKannada(this)">🔊 ಕನ್ನಡ Audio</button></div>
+<div class="cmt-list"></div><div class="cmt-box"><input placeholder="Comment..."><button onclick="addCmt(this)">➤</button></div>
+<div class="post-tools"><button onclick="pickPostPhoto(this)">🖼️ Add Photo</button><button class="send-btn" onclick="sendPost(this)">➤ Send / Save</button><button class="del-btn" onclick="deletePost(this)">🗑️ Delete Post</button></div>
+<input type="file" class="post-file" accept="image/*" hidden>`;
+div.querySelector('.new').innerText=d.text; div.querySelector('.post-date').textContent=d.date;
+if(d.photo){let im=document.createElement('img'); im.src=d.photo; div.querySelector('.post-photo').appendChild(im);}
+let lb=div.querySelector('.like-btn'); if(d.liked) lb.classList.add('liked');
+let lc=div.querySelector('.like-count'); lc.dataset.n=d.likes; lc.textContent=d.likes;
+let cl=div.querySelector('.cmt-list'); d.cmts.forEach(t=>{let x=document.createElement('div'); x.textContent=t; cl.appendChild(x);});
+div.querySelector('.new').addEventListener('click',function(){if(!isEditing){openAdmin();}});
+div.querySelector('.new').addEventListener('input',savePosts);
+div.querySelector('.post-file').onchange=function(e){compressImage(e.target.files[0],function(url){let box=div.querySelector('.post-photo'); box.innerHTML=""; let im=document.createElement('img'); im.src=url; box.appendChild(im); savePosts();});};
+document.getElementById('posts').appendChild(div); return div;
+}
+function sendPost(btn){let p=btn.closest('.post'); let t=p.querySelector('.new').innerText.trim(); if(!t && !p.querySelector('.post-photo img')){alert("Post ಖಾಲಿ ಇದೆ, ಮೊದಲು Box ನಲ್ಲಿ ಬರೆಯಿರಿ"); p.querySelector('.new').focus(); return;} if(!isEditing){openAdmin(); return;} savePosts(); alert("Post Save ಆಯ್ತು ✅");}
+function deletePost(btn){if(!isEditing){openAdmin();return;} if(!confirm("Delete Post ಮಾಡೋಣಾ?"))return; btn.closest('.post').remove(); savePosts();}
+function pickPostPhoto(btn){if(!isEditing){openAdmin();return;} btn.closest('.post').querySelector('.post-file').click();}
+function addPost(){if(!isEditing){openAdmin();return;} let el=createPost(null); savePosts(); el.scrollIntoView({behavior:'smooth'}); el.querySelector('.new').focus();}
+function likeThis(btn){let lc=btn.querySelector('.like-count'); let n=parseInt(lc.dataset.n||0); if(btn.classList.contains('liked')){btn.classList.remove('liked'); n--;}else{btn.classList.add('liked'); n++;} lc.dataset.n=n; lc.textContent=n; savePosts();}
+function addCmt(btn){let p=btn.closest('.post'); let inp=p.querySelector('.cmt-box input'); let v=inp.value.trim(); if(!v)return; let x=document.createElement('div'); x.textContent=v; p.querySelector('.cmt-list').appendChild(x); inp.value=""; savePosts();}
+function playKannada(btn){let txt=btn.closest('.post').querySelector('.new').innerText.trim(); if(!txt){alert("Post ಖಾಲಿ ಇದೆ"); return;} speechSynthesis.cancel(); let u=new SpeechSynthesisUtterance(txt); u.lang='kn-IN'; u.rate=0.9; let v=speechSynthesis.getVoices().find(x=>x.lang.startsWith('kn'))||null; if(v) u.voice=v; speechSynthesis.speak(u);}
+function openAdmin(){document.getElementById('adminInput').value=""; document.getElementById('adminModal').classList.add('open'); setTimeout(()=>document.getElementById('adminInput').focus(),100);}
+function toggleEdit(){if(isEditing){if(confirm("Logout ಮಾಡೋಣಾ?")) setLock(true); return;} pendingPhoto=null; openAdmin();}
+function closeAdmin(){pendingPhoto=null; document.getElementById('adminModal').classList.remove('open');}
+function checkAdmin(){let v=document.getElementById('adminInput').value.trim().toLowerCase(); if(v!==EDITOR_MAIL){alert("Wrong"); return;} closeAdmin(); setLock(false); if(pendingPhoto){let id=pendingPhoto; pendingPhoto=null; setTimeout(()=>document.getElementById(id).click(),100);}}
+function setLock(lock){isEditing=!lock; document.body.className=lock?"locked":"editing"; document.getElementById('loginBtn').innerText=lock?"🔑":"🔓"; updateCount();}
+function pickPhoto(id){if(!isEditing){pendingPhoto=id; openAdmin(); return;} document.getElementById(id).click();}
+function compressImage(file,cb){if(!file)return; let r=new FileReader(); r.onload=function(e){let img=new Image(); img.onload=function(){let c=document.createElement('canvas'); let max=800; let w=img.width,h=img.height; if(w>max){h=h*max/w; w=max;} c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h); cb(c.toDataURL('image/jpeg',0.7));}; img.src=e.target.result;}; r.readAsDataURL(file);}
+document.getElementById('myphoto').onchange=function(e){compressImage(e.target.files[0],function(url){document.getElementById('adminPhoto').src=url; localStorage.setItem('srinudi_admin',url);});};
+document.getElementById('myphoto2').onchange=function(e){compressImage(e.target.files[0],function(url){document.getElementById('sharadaPhoto').src=url; localStorage.setItem('srinudi_sharada',url);});};
+document.getElementById('adminInput').addEventListener('keydown',function(e){if(e.key==='Enter') checkAdmin();});
+loadPhotos(); loadPosts();
+var fb1=document.createElement('script'); fb1.src='https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js'; document.head.appendChild(fb1);
+fb1.onload=function(){var fb2=document.createElement('script'); fb2.src='https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js'; document.head.appendChild(fb2); fb2.onload=function(){var firebaseConfig={apiKey:"AIzaSyAizg-jDgQSyn-OPCrmnDCR3jhvHevLw",authDomain:"robert-adams-in-kannada.firebaseapp.com",projectId:"robert-adams-in-kannada",storageBucket:"robert-adams-in-kannada.firebasestorage.app"}; firebase.initializeApp(firebaseConfig); window.db=firebase.firestore(); setTimeout(function(){loadPosts();},800);};};
+</script>
+</body>
+</html>
