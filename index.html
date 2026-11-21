@@ -68,7 +68,12 @@ body.locked .add-btn,body.locked .post-file{opacity:.6}
 </div>
 
 <div class="center">
-<button class="add-btn" onclick="addPost()">+ Add Page / ಹೊಸ Post ಬರೆಯಿರಿ</button>
+<button class="add-btn"
+id="addBtn"
+style="display:none"
+onclick="addPost()">
++ Add Page / ಹೊಸ Post ಬರೆಯಿರಿ
+</button>
 <div id="posts"></div>
 <div id="count" style="text-align:center;color:#888;font-size:13px"></div>
 </div>
@@ -157,7 +162,25 @@ function openAdmin(){document.getElementById('adminInput').value=""; document.ge
 function toggleEdit(){if(isEditing){if(confirm("Logout ಮಾಡೋಣಾ?")) setLock(true); return;} openAdmin();}
 function closeAdmin(){document.getElementById('adminModal').classList.remove('open');}
 function checkAdmin(){let v=document.getElementById('adminInput').value.trim().toLowerCase(); if(v!==EDITOR_MAIL){alert("Wrong"); return;} closeAdmin(); setLock(false);}
-function setLock(lock){isEditing=!lock; document.body.className=lock?"locked":"editing"; document.getElementById('loginBtn').innerText=lock?"🔑":"🔓"; updateCount();}
+function setLock(lock){
+isEditing=!lock;
+ 
+document.body.className=lock?"locked":"editing";
+ 
+document.getElementById('loginBtn').innerText=
+lock?"🔑":"🔓";
+ 
+document.getElementById('addBtn').style.display=
+lock?"none":"block";
+ 
+updateCount();
+}
+isEditing=!lock;
+
+document.body.className=lock?"locked":"editing";
+
+document.getElementById('loginBtn').innerText=
+lock?"🔑":"🔓";
 function compressImage(file,cb){if(!file)return; let r=new FileReader(); r.onload=function(e){let img=new Image(); img.onload=function(){let c=document.createElement('canvas'); let max=800; let w=img.width,h=img.height; if(w>max){h=h*max/w; w=max;} c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h); cb(c.toDataURL('image/jpeg',0.7));}; img.src=e.target.result;}; r.readAsDataURL(file);}
 document.getElementById('adminInput').addEventListener('keydown',function(e){if(e.key==='Enter') checkAdmin();});
 loadPosts();
