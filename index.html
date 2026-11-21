@@ -22,20 +22,7 @@ body{font-family:"Noto Sans Kannada",system-ui,Arial,sans-serif;background:#fff;
 .sharada-right .head{font-weight:700;font-size:16px;margin-bottom:10px}
 .sharada-right img{width:210px;height:150px;object-fit:cover;display:block;margin:0 auto}
 .center{max-width:800px;margin:0 auto;overflow-y:auto;height:calc(100vh - 52px - 235px);padding:18px 20px;background:#fff}
-function setLock(lock){
-isEditing=!lock;
-
-document.body.className=
-lock?"locked":"editing";
-
-document.getElementById('loginBtn').innerText=
-lock?"🔑":"🔓";
-
-document.querySelector('.add-btn').style.display=
-lock?"none":"block";
-
-updateCount();
-}
+.add-btn{width:100%;padding:12px;background:#222;color:#fff;border:0;border-radius:8px;font-size:16px;cursor:pointer;margin-bottom:12px}
 .post{background:#fff;padding:16px 0;margin-bottom:16px;border-bottom:1px solid #eee}
 /* ಪೋಸ್ಟ್ ಬರೆಯುವ ಬಾಕ್ಸ್ - ಈಗ ಚೆನ್ನಾಗಿ ಕಾಣುತ್ತೆ */
 .post .new{min-height:120px;outline:none;white-space:pre-wrap;font-size:19px;line-height:1.8;border:1px solid #ccc;border-radius:12px;padding:14px;background:#fff;cursor:text}
