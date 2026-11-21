@@ -22,7 +22,7 @@ body{font-family:"Noto Sans Kannada",system-ui,Arial,sans-serif;background:#fff;
 .sharada-right .head{font-weight:700;font-size:16px;margin-bottom:10px}
 .sharada-right img{width:210px;height:150px;object-fit:cover;display:block;margin:0 auto}
 .center{max-width:800px;margin:0 auto;overflow-y:auto;height:calc(100vh - 52px - 235px);padding:18px 20px;background:#fff}
-.add-btn{width:100%;padding:12px;background:#222;color:#fff;border:0;border-radius:8px;font-size:16px;cursor:pointer;margin-bottom:12px}
+.add-btn{display:none;width:100%;padding:12px;background:#222;color:#fff;border:0;border-radius:8px;font-size:16px;cursor:pointer;margin-bottom:12px}
 .post{background:#fff;padding:16px 0;margin-bottom:16px;border-bottom:1px solid #eee}
 /* ಪೋಸ್ಟ್ ಬರೆಯುವ ಬಾಕ್ಸ್ - ಈಗ ಚೆನ್ನಾಗಿ ಕಾಣುತ್ತೆ */
 .post .new{min-height:120px;outline:none;white-space:pre-wrap;font-size:19px;line-height:1.8;border:1px solid #ccc;border-radius:12px;padding:14px;background:#fff;cursor:text}
@@ -157,7 +157,14 @@ function openAdmin(){document.getElementById('adminInput').value=""; document.ge
 function toggleEdit(){if(isEditing){if(confirm("Logout ಮಾಡೋಣಾ?")) setLock(true); return;} openAdmin();}
 function closeAdmin(){document.getElementById('adminModal').classList.remove('open');}
 function checkAdmin(){let v=document.getElementById('adminInput').value.trim().toLowerCase(); if(v!==EDITOR_MAIL){alert("Wrong"); return;} closeAdmin(); setLock(false);}
-function setLock(lock){isEditing=!lock; document.body.className=lock?"locked":"editing"; document.getElementById('loginBtn').innerText=lock?"🔑":"🔓"; updateCount();}
+function setLock(lock){
+isEditing=!lock;
+document.body.className=lock?"locked":"editing";
+document.getElementById('loginBtn').innerText=lock?"🔑":"🔓";
+document.querySelector('.add-btn').style.display=
+lock ? "none" : "block";
+updateCount();
+}
 function compressImage(file,cb){if(!file)return; let r=new FileReader(); r.onload=function(e){let img=new Image(); img.onload=function(){let c=document.createElement('canvas'); let max=800; let w=img.width,h=img.height; if(w>max){h=h*max/w; w=max;} c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h); cb(c.toDataURL('image/jpeg',0.7));}; img.src=e.target.result;}; r.readAsDataURL(file);}
 document.getElementById('adminInput').addEventListener('keydown',function(e){if(e.key==='Enter') checkAdmin();});
 loadPosts();
